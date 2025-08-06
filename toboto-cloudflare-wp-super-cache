@@ -3,9 +3,9 @@
  * Plugin Name: Cloudflare Cache Purge for Super Cache
  * Description: Automatically purges Cloudflare cache when Super Cache is cleared
  * Version: 1.0.0
- * Author: traffband
+ * Author: toboto
  *
- * @package traffband-plugin
+ * @package toboto-plugin
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -49,7 +49,7 @@ class CloudflareSupercachePurger {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private string $plugin_slug = 'traffband-supercache-purger';
+	private string $plugin_slug = 'toboto-supercache-purger';
 
 	/**
 	 * Constructor - initializes the plugin and sets up hooks
@@ -57,9 +57,9 @@ class CloudflareSupercachePurger {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->cf_email   = defined( 'CLOUDFLARE_EMAIL' ) ? CLOUDFLARE_EMAIL : get_option( 'traffband_cloudflare_supercache_email', '' );
-		$this->cf_api_key = defined( 'CLOUDFLARE_API_KEY' ) ? CLOUDFLARE_API_KEY : get_option( 'traffband_cloudflare_supercache_api_key', '' );
-		$this->cf_zone_id = defined( 'CLOUDFLARE_ZONE_ID' ) ? CLOUDFLARE_ZONE_ID : get_option( 'traffband_cloudflare_supercache_zone_id', '' );
+		$this->cf_email   = defined( 'CLOUDFLARE_EMAIL' ) ? CLOUDFLARE_EMAIL : get_option( 'toboto_cloudflare_supercache_email', '' );
+		$this->cf_api_key = defined( 'CLOUDFLARE_API_KEY' ) ? CLOUDFLARE_API_KEY : get_option( 'toboto_cloudflare_supercache_api_key', '' );
+		$this->cf_zone_id = defined( 'CLOUDFLARE_ZONE_ID' ) ? CLOUDFLARE_ZONE_ID : get_option( 'toboto_cloudflare_supercache_zone_id', '' );
 
 		add_action( 'wp_cache_cleared', array( $this, 'purge_cloudflare_cache' ) );
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
@@ -103,51 +103,51 @@ class CloudflareSupercachePurger {
 	public function register_settings() {
 		register_setting(
 			$this->plugin_slug . '-settings-group',
-			'traffband_cloudflare_supercache_email',
+			'toboto_cloudflare_supercache_email',
 			array( 'sanitize_callback' => 'sanitize_text_field' )
 		);
 
 		register_setting(
 			$this->plugin_slug . '-settings-group',
-			'traffband_cloudflare_supercache_api_key',
+			'toboto_cloudflare_supercache_api_key',
 			array( 'sanitize_callback' => 'sanitize_text_field' )
 		);
 
 		register_setting(
 			$this->plugin_slug . '-settings-group',
-			'traffband_cloudflare_supercache_zone_id',
+			'toboto_cloudflare_supercache_zone_id',
 			array( 'sanitize_callback' => 'sanitize_text_field' )
 		);
 
 		add_settings_section(
-			'traffband_cloudflare_supercache_main_section',
+			'toboto_cloudflare_supercache_main_section',
 			'Cloudflare API Settings',
 			array( $this, 'settings_section_callback' ),
 			$this->plugin_slug
 		);
 
 		add_settings_field(
-			'traffband_cloudflare_supercache_email',
+			'toboto_cloudflare_supercache_email',
 			'Cloudflare Email',
 			array( $this, 'email_field_callback' ),
 			$this->plugin_slug,
-			'traffband_cloudflare_supercache_main_section'
+			'toboto_cloudflare_supercache_main_section'
 		);
 
 		add_settings_field(
-			'traffband_cloudflare_supercache_api_key',
+			'toboto_cloudflare_supercache_api_key',
 			'Cloudflare API Key',
 			array( $this, 'api_key_field_callback' ),
 			$this->plugin_slug,
-			'traffband_cloudflare_supercache_main_section'
+			'toboto_cloudflare_supercache_main_section'
 		);
 
 		add_settings_field(
-			'traffband_cloudflare_supercache_zone_id',
+			'toboto_cloudflare_supercache_zone_id',
 			'Cloudflare Zone ID',
 			array( $this, 'zone_id_field_callback' ),
 			$this->plugin_slug,
-			'traffband_cloudflare_supercache_main_section'
+			'toboto_cloudflare_supercache_main_section'
 		);
 	}
 
@@ -166,8 +166,8 @@ class CloudflareSupercachePurger {
 	 * @since 1.0.0
 	 */
 	public function email_field_callback() {
-		$email = get_option( 'traffband_cloudflare_supercache_email', '' );
-		echo '<input type="text" id="traffband_cloudflare_supercache_email" name="traffband_cloudflare_supercache_email" value="' . esc_attr( $email ) . '" class="regular-text">';
+		$email = get_option( 'toboto_cloudflare_supercache_email', '' );
+		echo '<input type="text" id="toboto_cloudflare_supercache_email" name="toboto_cloudflare_supercache_email" value="' . esc_attr( $email ) . '" class="regular-text">';
 		echo '<p class="description">Your Cloudflare account email address</p>';
 	}
 
@@ -177,8 +177,8 @@ class CloudflareSupercachePurger {
 	 * @since 1.0.0
 	 */
 	public function api_key_field_callback(): void {
-		$api_key = get_option( 'traffband_cloudflare_supercache_api_key', '' );
-		echo '<input type="password" id="traffband_cloudflare_supercache_api_key" name="traffband_cloudflare_supercache_api_key" value="' . esc_attr( $api_key ) . '" class="regular-text">';
+		$api_key = get_option( 'toboto_cloudflare_supercache_api_key', '' );
+		echo '<input type="password" id="toboto_cloudflare_supercache_api_key" name="toboto_cloudflare_supercache_api_key" value="' . esc_attr( $api_key ) . '" class="regular-text">';
 		echo '<p class="description">Your Global API key from Cloudflare</p>';
 	}
 
@@ -188,8 +188,8 @@ class CloudflareSupercachePurger {
 	 * @since 1.0.0
 	 */
 	public function zone_id_field_callback() {
-		$zone_id = get_option( 'traffband_cloudflare_supercache_zone_id', '' );
-		echo '<input type="text" id="traffband_cloudflare_supercache_zone_id" name="traffband_cloudflare_supercache_zone_id" value="' . esc_attr( $zone_id ) . '" class="regular-text">';
+		$zone_id = get_option( 'toboto_cloudflare_supercache_zone_id', '' );
+		echo '<input type="text" id="toboto_cloudflare_supercache_zone_id" name="toboto_cloudflare_supercache_zone_id" value="' . esc_attr( $zone_id ) . '" class="regular-text">';
 		echo '<p class="description">You can find your Zone ID in the Cloudflare dashboard under Overview > API section.</p>';
 	}
 
@@ -227,14 +227,14 @@ class CloudflareSupercachePurger {
 				<h2>Manual Cache Purge</h2>
 				<p>Click the button below to manually purge your Cloudflare cache:</p>
 				<form method="post" action="">
-					<?php wp_nonce_field( 'traffband_cloudflare_manual_purge', 'traffband_cloudflare_manual_purge_nonce' ); ?>
-					<input type="hidden" name="traffband_cloudflare_manual_purge" value="1">
+					<?php wp_nonce_field( 'toboto_cloudflare_manual_purge', 'toboto_cloudflare_manual_purge_nonce' ); ?>
+					<input type="hidden" name="toboto_cloudflare_manual_purge" value="1">
 					<button type="submit" class="button button-primary">Purge Cloudflare Cache</button>
 				</form>
 			</div>
 
 			<?php
-			if ( isset( $_POST['traffband_cloudflare_manual_purge'] ) && check_admin_referer( 'traffband_cloudflare_manual_purge', 'traffband_cloudflare_manual_purge_nonce' ) ) {
+			if ( isset( $_POST['toboto_cloudflare_manual_purge'] ) && check_admin_referer( 'toboto_cloudflare_manual_purge', 'toboto_cloudflare_manual_purge_nonce' ) ) {
 				$purge_result = $this->purge_cloudflare_cache();
 				if ( $purge_result ) {
 					echo '<div class="notice notice-success is-dismissible"><p>Cloudflare cache purged successfully!</p></div>';
@@ -255,15 +255,15 @@ class CloudflareSupercachePurger {
 	 */
 	public function purge_cloudflare_cache() {
 		if ( empty( $this->cf_email ) ) {
-			$this->cf_email = get_option( 'traffband_cloudflare_supercache_email', '' );
+			$this->cf_email = get_option( 'toboto_cloudflare_supercache_email', '' );
 		}
 
 		if ( empty( $this->cf_api_key ) ) {
-			$this->cf_api_key = get_option( 'traffband_cloudflare_supercache_api_key', '' );
+			$this->cf_api_key = get_option( 'toboto_cloudflare_supercache_api_key', '' );
 		}
 
 		if ( empty( $this->cf_zone_id ) ) {
-			$this->cf_zone_id = get_option( 'traffband_cloudflare_supercache_zone_id', '' );
+			$this->cf_zone_id = get_option( 'toboto_cloudflare_supercache_zone_id', '' );
 		}
 
 		if ( empty( $this->cf_email ) || empty( $this->cf_api_key ) || empty( $this->cf_zone_id ) ) {
